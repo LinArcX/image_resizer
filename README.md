@@ -37,5 +37,12 @@ And finally run the program:
 
 `../release/image_resizer`
 
+
+## Test
+`./output/x64/release/image_resizer -output ./assets/smaller.png -input ./assets/original.png -ration 0.4 -quality 90 -algo bicubic`
+
+## Inspiration
+1. [opencl-resizer](https://github.com/vencabkk/opencl-resizer)
+
 ## License
 ![License](https://img.shields.io/github/license/LinArcX/image_resizer.svg)

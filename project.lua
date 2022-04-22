@@ -208,7 +208,7 @@ vim.api.nvim_set_keymap('n', '<C-e>', ':lua require("project").clean()<CR>', {no
 vim.api.nvim_set_keymap('n', '<F13>', ':lua require("project").show_context_menu()<CR>', {noremap = true, silent=true})
 vim.api.nvim_set_keymap('v', '<F13>', ':lua require("project").show_context_menu()<CR>', {noremap = true, silent=true})
 
-require("user.plugins.m_dap").setup.c("lldb", string.format("${workspaceFolder}/output/%s/%s/%s", items[1], items[2], app_name))
+require("user.plugins.m_dap").setup.cpp("lldb", string.format("${workspaceFolder}/output/%s/%s/%s", items[1], items[2], app_name))
 
 table.insert(require('command_palette').CpMenu,
   {"project",

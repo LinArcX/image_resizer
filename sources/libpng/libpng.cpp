@@ -1,4 +1,4 @@
-#include "inputOutput.hpp"
+#include "InputOutput.hpp"
 
 #include <stdlib.h>
 #include <stdio.h>
