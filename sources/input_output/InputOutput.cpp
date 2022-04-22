@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
-#if defined(__APPLE__) || defined(__MACOSX)
+#if defined(__APPLE__) || defined(__MACOSX) || defined(__linux__)
 #include <fstream>
 #elif defined(WIN32)
 #include <windows.h>
@@ -17,7 +17,7 @@ bool InputOutput::readBinaryFile(const std::string& fileName, std::vector<unsign
 	unsigned long size = GetFileSize(hFile, NULL);
 	data.resize(size);
 	return ReadFile(hFile, (char*)(&(data)[0]), size, &dwBytesRead, NULL);
-#elif defined(__APPLE__) || defined(__MACOSX)
+#elif defined(__APPLE__) || defined(__MACOSX) || defined(__linux__)
 
     FILE* file = std::fopen(fileName.c_str(), "rb");
 
@@ -50,7 +50,7 @@ bool InputOutput::writeBinaryFile(const std::string& fileName, const std::vector
 	HANDLE hFile = CreateFile(fileName.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	return WriteFile(hFile, (char*)(&(data)[0]), length, &dwBytesWritten, NULL);
 
-#elif defined(__APPLE__) || defined(__MACOSX)
+#elif defined(__APPLE__) || defined(__MACOSX) || defined(__linux__)
 
     FILE* file = std::fopen(fileName.c_str(), "wb");
 

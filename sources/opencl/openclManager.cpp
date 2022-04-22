@@ -1,10 +1,9 @@
 #include "openclManager.hpp"
 
-#include <CL/cl.h>
-
 #include <iostream>
 #include <set>
 #include <cassert>
+
 #include "../image/Image.hpp"
 #include "../utils/utils.hpp"
 
@@ -20,9 +19,7 @@ void openClManager::setupPlatform(DeviceType type)
   std::vector<cl::Platform> platforms;
   std::vector<cl::Device> devices;
 
-  // segfault here :/
   cl::Platform::get(&platforms);
-
   for (auto &p : platforms)
   {
     try
@@ -84,62 +81,50 @@ bool openClManager::addKernelProgram(const std::string &kernel)
 void openClManager::resizeImage(const Image& in, Image& out, float ratio, const std::string& programEntry)
 {
   assert(ratio > 0);
-  //try
-  //{
-    auto imageFormat = getImageFormat(in);
+  auto imageFormat = getImageFormat(in);
 
-    // Create an OpenCL Image / texture and transfer data to the device
-    cl::Image2D clImageIn = cl::Image2D(m_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, imageFormat,
-                                        in.getWidth(), in.getHeight(), 0, (void *) in.getData().data());
-    struct CLImage
-    {
-      CLImage(const Image &img, float ratio) : Width(img.getWidth() * ratio), Height(img.getHeight() * ratio)
-      {}
+  // Create an OpenCL Image / texture and transfer data to the device
+  cl::Image2D clImageIn = cl::Image2D(m_context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, imageFormat,
+                                      in.getWidth(), in.getHeight(), 0, (void *) in.getData().data());
+  struct CLImage
+  {
+    CLImage(const Image &img, float ratio) : Width(img.getWidth() * ratio), Height(img.getHeight() * ratio)
+    {}
 
-      unsigned Width;    ///< Width of the image, in pixels
-      unsigned Height;   ///< Height of the image, in pixels
-    };
+    unsigned Width;    ///< Width of the image, in pixels
+    unsigned Height;   ///< Height of the image, in pixels
+  };
 
-    CLImage sImageIn(in, 1.0f);
-    CLImage sImageOut(in, ratio);
+  CLImage sImageIn(in, 1.0f);
+  CLImage sImageOut(in, ratio);
 
-    // Create a buffer for the result
-    cl::Image2D clImageOut = cl::Image2D(m_context, CL_MEM_WRITE_ONLY, imageFormat, sImageOut.Width,
-                                         sImageOut.Height, 0, nullptr);
+  // Create a buffer for the result
+  cl::Image2D clImageOut = cl::Image2D(m_context, CL_MEM_WRITE_ONLY, imageFormat, sImageOut.Width,
+                                       sImageOut.Height, 0, nullptr);
 
-    // Run kernel
-    cl::Kernel kernel = cl::Kernel(m_program, programEntry.c_str());
-    kernel.setArg(0, clImageIn);
-    kernel.setArg(1, clImageOut);
-    kernel.setArg(2, sImageIn);
-    kernel.setArg(3, sImageOut);
-    kernel.setArg(4, ratio);
-    kernel.setArg(5, ratio);
+  // Run kernel
+  cl::Kernel kernel = cl::Kernel(m_program, programEntry.c_str());
+  kernel.setArg(0, clImageIn);
+  kernel.setArg(1, clImageOut);
+  kernel.setArg(2, sImageIn);
+  kernel.setArg(3, sImageOut);
+  kernel.setArg(4, ratio);
+  kernel.setArg(5, ratio);
 
-    m_queue.enqueueNDRangeKernel(
-            kernel,
-            cl::NullRange,
-            cl::NDRange(Utils::maximum(sImageIn.Width, sImageOut.Width), Utils::maximum(sImageIn.Width, sImageOut.Height)),
-            cl::NullRange
-    );
+  m_queue.enqueueNDRangeKernel(
+          kernel,
+          cl::NullRange,
+          cl::NDRange(Utils::maximum(sImageIn.Width, sImageOut.Width), Utils::maximum(sImageIn.Width, sImageOut.Height)),
+          cl::NullRange
+  );
 
-    cl::size_t<3> origin;
-    cl::size_t<3> region;
-    origin[0] = 0;
-    origin[1] = 0;
-    origin[2] = 0;
-    region[0] = sImageOut.Width;
-    region[1] = sImageOut.Height;
-    region[2] = 1;
 
-    const unsigned int size(sImageOut.Width * sImageOut.Height * in.getChannels());
-    out.setData(new unsigned char[size], size, sImageOut.Width, sImageOut.Height);
-    m_queue.enqueueReadImage(clImageOut, CL_TRUE, origin, region, 0, 0, (void *) out.getData().data());
-  //}
-  //catch (cl::Error& err)
-  //{
-  //    std::cerr << "Error running kernel: " << err.what() << " " << getCLErrorString(err.err()) << std::endl;
-  //}
+  const std::array<long unsigned int, 3>& origin = {0, 0, 0};
+  const std::array<long unsigned int, 3>& region = { sImageOut.Width, sImageOut.Height, 1};
+
+  const unsigned int size(sImageOut.Width * sImageOut.Height * in.getChannels());
+  out.setData(new unsigned char[size], size, sImageOut.Width, sImageOut.Height);
+  m_queue.enqueueReadImage(clImageOut, CL_TRUE, origin, region, 0, 0, (void *) out.getData().data());
 }
 
 cl::ImageFormat openClManager::getImageFormat(const Image& img) const

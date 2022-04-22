@@ -2,12 +2,12 @@
 #define OPENCL_MANAGER_HPP
 
 #include <string>
-#include "opencl.hpp"
+#include <CL/cl2.hpp>
 
 class Image;
+
 class openClManager
 {
-
 public:
   enum DeviceType
   {

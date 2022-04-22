@@ -7,22 +7,12 @@
 
 class Resizer
 {
-public:
 
-  /**
-   *
-   * @param inputDir input directory of images to be resized
-   * @param outputDir output directory where the images will be resized
-   * @param ratio ratio of resizing, eg. 0.5 will result in 50% smaller image
-   * @param quality quality of output JPEG <1, 100>
-   * @param options resizing algorithm
-   */
+public:
   static int resize(const std::string& input,
                        const std::string& output,
-                       float ratio,
+                       float ratio, // ratio of resizing, eg. 0.5 will result in 50% smaller image
                        int quality,
-                       const std::string& options,
-                       std::unordered_map<std::string, float>& profiler);
+                       const std::string& options); //resizing algorithm
 };
-
 #endif

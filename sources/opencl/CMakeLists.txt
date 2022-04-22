@@ -1,13 +1,8 @@
 FIND_PACKAGE(PkgConfig REQUIRED)
 PKG_CHECK_MODULES(OPENCL REQUIRED OpenCL)
 
-#find_package(OpenCL REQUIRED)
-#include_directories(${OPENCL_INCLUDE_DIR})
-
 add_library(
   opencl
-  opencl.hpp
-  profiler.hpp
   resize_kernel.h
   openclManager.hpp
   openclManager.cpp)

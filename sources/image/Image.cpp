@@ -65,34 +65,34 @@ bool Image::resize()
 
 void Image::setData(unsigned char* data, unsigned int size, int width, int height)
 {
-    m_data->clear();
-    m_data->assign(data, data + size);
+  m_data->clear();
+  m_data->assign(data, data + size);
 
-    m_size = size;
-    m_width = width;
-    m_height = height;
+  m_size = size;
+  m_width = width;
+  m_height = height;
 
-    m_encoded = false;
+  m_encoded = false;
 }
 
 bool Image::load(const std::string& fileName)
 {
-    m_encoded = true;
+  m_encoded = false;
 
-    if (loadFile(fileName))
-    {
-        return decode();
-    }
+  if (loadFile(fileName))
+  {
+    return decode();
+  }
 
-    return false;
+  return false;
 }
 
 bool Image::save(const std::string& fileName, int compressionRatio)
 {
-    if (!m_encoded)
-    {
- 		encode(compressionRatio);
-    }
+  if (!m_encoded)
+  {
+ 	  encode(compressionRatio);
+  }
 
-    return saveFile(fileName);
+  return saveFile(fileName);
 }

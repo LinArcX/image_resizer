@@ -39,7 +39,7 @@ And finally run the program:
 
 
 ## Test
-`./output/x64/release/image_resizer -output ./assets/smaller.png -input ./assets/original.png -ration 0.4 -quality 90 -algo bicubic`
+`./output/x64/release/image_resizer -output ./assets/smaller.png -input ./assets/original.png -ratio 0.4 -quality 90 -algorithm "bicubic"`
 
 ## Inspiration
 1. [opencl-resizer](https://github.com/vencabkk/opencl-resizer)
