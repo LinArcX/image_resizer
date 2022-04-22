@@ -6,10 +6,13 @@ add_library(
   image
   Image.hpp
   Image.cpp
-  IO.hpp
-  IO.cpp
-  PNGImage.hpp
-  PNGImage.cpp)
+  Png.hpp
+  Png.cpp)
 
 #target_link_libraries(image png_static)
-target_include_directories(image PUBLIC ${LIBPNG_INCLUDE_DIR})
+target_include_directories(image PUBLIC
+  ${LIBPNG_INCLUDE_DIR}
+  input_output)
+
+target_link_libraries(image PUBLIC
+  input_output)

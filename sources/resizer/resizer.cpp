@@ -6,7 +6,7 @@
 #include "../opencl/openclManager.hpp"
 #include "../opencl/resize_kernel.h"
 #include "../opencl/profiler.hpp"
-#include "../image/PNGImage.hpp"
+#include "../image/Png.hpp"
 
 int Resizer::resize(const std::string& input,
                      const std::string& output,
@@ -46,8 +46,8 @@ int Resizer::resize(const std::string& input,
       return EXIT_FAILURE;
   }
 
-  PNGImage imageIn;
-  PNGImage imageOut;
+  Png input_image;
+  Png output_image;
 
   auto readProf = 0;
   auto writeProf = 0;
@@ -56,16 +56,16 @@ int Resizer::resize(const std::string& input,
   profiler["op"] += 1;
 
   auto r = Profiler::start();
-  if (imageIn.load(input))
+  if (input_image.load(input))
   {
       readProf += Profiler::stop(r);
 
       auto res = Profiler::start();
-      manager.resizeImage(imageIn, imageOut, ratio, samplingAlgo);
+      manager.resizeImage(input_image, output_image, ratio, samplingAlgo);
       resizeProf += Profiler::stop(res);
 
       auto w = Profiler::start();
-      imageOut.save(outFile, quality);
+      output_image.save(outFile, quality);
       writeProf += Profiler::stop(w);
   }
 

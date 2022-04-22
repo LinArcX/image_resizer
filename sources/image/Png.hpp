@@ -1,13 +1,14 @@
-#pragma once
+#ifndef IMAGE_PNG_HPP
+#define IMAGE_PNG_HPP
 
 #include "Image.hpp"
 #include <string>
 
-class PNGImage : public Image
+class Png : public Image
 {
-public:
-
 protected:
     bool decode() override;
     bool encode(int quality) override;
 };
+
+#endif

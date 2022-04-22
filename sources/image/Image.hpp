@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IMAGE_HPP
+#define IMAGE_HPP
 
 #include <vector>
 #include <string>
@@ -6,7 +7,6 @@
 class Image
 {
 public:
-
     Image();
     explicit Image(const std::vector<unsigned char>& data);
     virtual ~Image();
@@ -26,7 +26,6 @@ public:
     bool resize();
 
 protected:
-
     bool loadFile(const std::string& fileName);
     bool saveFile(const std::string& fileName);
 
@@ -43,3 +42,4 @@ protected:
 
     static std::vector<unsigned char>* m_buffer;
 };
+#endif

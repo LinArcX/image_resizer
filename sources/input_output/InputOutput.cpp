@@ -1,4 +1,5 @@
-#include "IO.hpp"
+#include "InputOutput.hpp"
+
 #include <string>
 #include <vector>
 #include <cassert>
@@ -8,7 +9,7 @@
 #include <windows.h>
 #endif
 
-bool IO::readBinaryFile(const std::string& fileName, std::vector<unsigned char>& data)
+bool InputOutput::readBinaryFile(const std::string& fileName, std::vector<unsigned char>& data)
 {
 #if defined(WIN32)
 	DWORD dwBytesRead = 0;
@@ -36,7 +37,7 @@ bool IO::readBinaryFile(const std::string& fileName, std::vector<unsigned char>&
 #endif
 }
 
-bool IO::writeBinaryFile(const std::string& fileName, const std::vector<unsigned char>& data, unsigned size)
+bool InputOutput::writeBinaryFile(const std::string& fileName, const std::vector<unsigned char>& data, unsigned size)
 {
     unsigned long length (data.size());
 

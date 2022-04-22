@@ -1,5 +1,5 @@
 #include "Image.hpp"
-#include "IO.hpp"
+#include "../input_output/InputOutput.hpp"
 
 std::vector<unsigned char>* Image::m_buffer = nullptr;
 
@@ -37,7 +37,7 @@ Image::~Image()
 
 bool Image::loadFile(const std::string& fileName)
 {
-	if (IO::readBinaryFile(fileName, *m_data))
+	if (InputOutput::readBinaryFile(fileName, *m_data))
 	{
 		m_size = m_data->size();
 		return true;
@@ -48,7 +48,7 @@ bool Image::loadFile(const std::string& fileName)
 
 bool Image::saveFile(const std::string& fileName)
 {
-	return IO::writeBinaryFile(fileName, *m_data, m_size);
+	return InputOutput::writeBinaryFile(fileName, *m_data, m_size);
 }
 
 void Image::swapBuffers()
