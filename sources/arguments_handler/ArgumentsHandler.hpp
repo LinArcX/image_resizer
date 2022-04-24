@@ -23,10 +23,12 @@ public:
 private:
   int quality = 100;
   float ratio = 1.0f;
-  std::string output;
-  std::string input;
-  //std::string input = "/home/linarcx/saeed.png";
-  //std::string output = "/home/linarcx/hamid.png";
+  //std::string output;
+  //std::string input;
+  //std::string input = "/home/linarcx/saeed.txt";
+  //std::string output = "/home/linarcx/output.txt";
+  std::string input = "/home/linarcx/pngtest.png";
+  std::string output = "/home/linarcx/output.png";
   std::string algorithm = "bicubic";
 };
 

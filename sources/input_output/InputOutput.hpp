@@ -7,8 +7,13 @@
 class InputOutput
 {
 public:
-  static bool readBinaryFile(const std::string& fileName, std::vector<unsigned char>& data);
-  static bool writeBinaryFile(const std::string& fileName, const std::vector<unsigned char>& data, unsigned size=0);
+  // , std::vector<unsigned char>& data
+  // , const std::vector<unsigned char>& data,
+  static bool readBinaryFile(const std::string& fileName);
+  static bool writeBinaryFile(const std::string& fileName, unsigned size=0);
+  static char* data;
+
+private:
 };
 
 #endif

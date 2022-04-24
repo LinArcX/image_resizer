@@ -8,10 +8,10 @@
 int main(int argc, char** argv)
 {
   ArgumentsHandler argumentHandler;
-  if(EXIT_FAILURE == argumentHandler.handle_arguments(argc, argv))
-  {
-    return EXIT_FAILURE;
-  }
+  //if(EXIT_FAILURE == argumentHandler.handle_arguments(argc, argv))
+  //{
+  //  return EXIT_FAILURE;
+  //}
 
   if(EXIT_FAILURE == Resizer::resize(argumentHandler.getInput(),
                                      argumentHandler.getOutput(),
